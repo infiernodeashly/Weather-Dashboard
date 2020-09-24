@@ -13,22 +13,21 @@ let weatherInfoRequestPrefix = 'https://api.openweathermap.org/data/2.5/';
 let fiveDayRequestPrefix = 'https://api.openweathermap.org/data/2.5/forecast?q='; // + &mode=json
 let uviQuery = 'uvi?'
 // let apiKey = '&appid=994fee8b2531293f358ced41173a8f40'
-let config = {
-    OW_API_KEY : '994fee8b2531293f358ced41173a8f40'
-  }
-const apiKey = "&appid=" + config.OW_API_KEY;
+
+const apiKey = "&appid=" +key.OW_API_KEY;
 let searchHistory = {};
 
+// Preparing page to refresh with search history still intact. 
 $(document).ready(() => {
    renderSearchHistory();
 })
-
+// Function for freshing page with serach history instact. 
 const renderSearchHistory = () => {
-  let searchHx = JSON.parse(localStorage.getItem('searchHistory'));
-  if(searchHx) {
-    arrayLength = searchHx.length;
+  let searchHist = JSON.parse(localStorage.getItem('searchHistory'));
+  if(searchHist) {
+    arrayLength = searchHist.length;
     for(let i = 0; i < arrayLength; ++i) {
-      $(`#row${i}`).html(`<td><button class="recent btn btn-link p-0 text-muted">${searchHx[i].searchString}</button></td>`);
+      $(`#row${i}`).html(`<td><button class="recent btn btn-link p-0 text-muted">${searchHist[i].searchString}</button></td>`);
     }
   }
 }
@@ -147,8 +146,8 @@ let setFiveDayData = (response => {
 })
 
 // TODO: make searchesObj into an array instead of an object
-let saveToLocalStorage = (searchHx => {
-  return localStorage.setItem('searchHistory', JSON.stringify(searchHx));
+let saveToLocalStorage = (searchHist => {
+  return localStorage.setItem('searchHistory', JSON.stringify(searchHist));
 });
 
 const addToSearchHistory = (searchString, timeStamp) => {
@@ -156,31 +155,45 @@ const addToSearchHistory = (searchString, timeStamp) => {
     "searchString": searchString,
     "timeStamp": timeStamp
   }
-  let searchHx = JSON.parse(localStorage.getItem('searchHistory'));
-  if(!searchHx) {
-    searchHx = [];
+  let searchHist = JSON.parse(localStorage.getItem('searchHistory'));
+  if(!searchHist) {
+    searchHist = [];
   }
 
-  let len = searchHx.length;
+  let len = searchHist.length;
   let inArray = false;
   for(let i = 0; i < len; ++i) {
-    if(searchHx[i].searchString === obj.searchString) {
-      searchHx[i].timeStamp = obj.timeStamp;
+    if(searchHist[i].searchString === obj.searchString) {
+      searchHist[i].timeStamp = obj.timeStamp;
       inArray = true;
     }
   }
 
   if(inArray === false) {
-    searchHx.push(obj);
+    searchHist.push(obj);
   }
 
-  searchHx.sort((b, a) => {
+  searchHist.sort((b, a) => {
     return a.timeStamp - b.timeStamp;
   });
 
-  while(searchHx.length > 10) {
-    let popResult = searchHx.pop();
+  while(searchHist.length > 10) {
+    let popResult = searchHist.pop();
   }
 
-  saveToLocalStorage(searchHx);
+  saveToLocalStorage(searchHist);
 }
+
+
+
+
+// var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=Washington,US&appid=994fee8b2531293f358ced41173a8f40";
+
+// $.ajax({
+//   url: queryURL,
+//   method: "GET"
+// }).then(function(response) {
+//   console.log(response);
+// });
+
+
