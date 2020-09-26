@@ -5,3 +5,4 @@ This application will allow you to search for a city and be returned with the ci
 
 References:
 https://github.com/sguitjens/homework6
+https://nordicapis.com/hiding-and-securing-your-api-keys/

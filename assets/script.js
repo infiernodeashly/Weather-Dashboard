@@ -1,8 +1,8 @@
-let cityLat = 0;
-let cityLon = 0;
-let cityName = ''; // for getting the city name from the response, if needed
+let lat = 0;
+let lon = 0;
+let cityName = ''; 
 let countryCode = '';
-let tempInK = 0;
+let temp = 0;
 let humidity = 0;
 let windSpeed = 0;
 let uvIndex = 0;
@@ -42,15 +42,16 @@ let initializeLocalStorage = (() => {
 });
 
 $('#city-search').click(() => {
+// 'event' is deprecating. Looking into replacement. 
   event.preventDefault();
-  let citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
+  let citySearchString = validatedSearchString($('input').attr("placeholder", "City Name, Country").val());
   getWeatherInformation(citySearchString);
 })
 
 $('input').keypress(event => {
   if (event.which == 13) {
     event.preventDefault();
-    let citySearchString = validatedSearchString($('input').attr("placeholder", "City Name").val());
+    let citySearchString = validatedSearchString($('input').attr("placeholder", "City Name, Country").val());
     getWeatherInformation(citySearchString);
   }
 })
@@ -66,18 +67,18 @@ let getWeatherInformation = (citySearchString => {
     })
   })
   .then((response) => {
-    cityLat = response.coord.lat;
-    cityLon = response.coord.lon;
+    lat = response.coord.lat;
+    lon = response.coord.lon;
     cityName = response.name;
     countryCode = response.sys.country;
-    tempInK = response.main.temp;
+    temp = response.main.temp;
     humidity = response.main.humidity;
     windSpeed = response.wind.speed;
     iconName = response.weather[0].icon;
   })
   .then(() => {
     return $.ajax({
-      url: weatherInfoRequestPrefix + uviQuery + apiKey + '&lat=' + cityLat + '&lon=' + cityLon,
+      url: weatherInfoRequestPrefix + uviQuery + apiKey + '&lat=' + lat + '&lon=' + lon,
       method: "GET"
     })
     .then(response => {
@@ -100,7 +101,7 @@ let getWeatherInformation = (citySearchString => {
 let validatedSearchString = (city => {
   let search = city.split(',');
   if(search.length > 1){
-    // make sure neither string is empty
+    
     let first = search[0].length;
     let second = search[1].length;
     if(first === 0 || second === 0) {
@@ -121,12 +122,12 @@ let showValuesOnPage = (() => {
   $('#city-name').text(searchString + ' (' + dateString(Date.now()) + ')');
   addToSearchHistory(searchString, Date.now());
   renderSearchHistory();
-  $('#weather-icon').attr('src', iconURL + iconName + '.png')
-  $('#temp-data').text('Temperature: ' + 
-    (tempInK - 273.15).toFixed(2) + ' ' + String.fromCharCode(176) + 'C (' +
-    ((tempInK - 273.15) * 9/5 + 32).toFixed(2) + ' ' + String.fromCharCode(176) + 'F)');
+  $('#weatherIcon').attr('src', iconURL + iconName + '.png')
+  $('#temp-data').text('Temp: ' + 
+    (temp - 273.15).toFixed(2) + ' ' + String.fromCharCode(176) + 'C (' +
+    ((temp - 273.15) * 9/5 + 32).toFixed(2) + ' ' + String.fromCharCode(176) + 'F)');
   $('#hum-data').text('Humidity: ' + humidity + '%');
-  $('#wind-data').text('Wind Speed: ' + windSpeed + ' MPH');
+  $('#wind-data').text('Wind: ' + windSpeed + ' MPH');
   $('#uvi-data').text('UV Index: ' + uvIndex);
 });
 
@@ -136,7 +137,7 @@ let setFiveDayData = (response => {
   let dayNumber = 1;
   for(let i = 0; i < size; i+=8) {
     $(`#five-day-${dayNumber}`).find('h6').text(dateString(dataArray[i].dt * 1000));
-    $(`#five-day-${dayNumber}`).find('.weather-icon').attr('src', iconURL + dataArray[i].weather[0].icon + '.png');
+    $(`#five-day-${dayNumber}`).find('.weatherIcon').attr('src', iconURL + dataArray[i].weather[0].icon + '.png');
     $(`#five-day-${dayNumber}`).find('.temp-5').text('Temperature: ' + 
       (dataArray[i].main.temp - 273.15).toFixed(2) + ' ' + String.fromCharCode(176) + 'C (' +
       ((dataArray[i].main.temp - 273.15) * 9/5 + 32).toFixed(2) + ' ' + String.fromCharCode(176) + 'F)');
