@@ -5,7 +5,8 @@ This application will allow you to search for a city and be returned with the ci
 The Open Weather API was used for this project, so it does not allow you to search by state, although there is a way to search via state code. 
 'Event' is being deprecated, so I will need to learn what to use now, instead.
 
-
+Repository: https://github.com/infiernodeashly/Weather-Dashboard
+URL: https://infiernodeashly.github.io/Weather-Dashboard/
 
 The user inputs the city name and country code, then selects the search icon or presses enter.
 
