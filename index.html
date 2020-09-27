@@ -14,7 +14,7 @@
       <h1>Weather Dashboard</h1>
     </div>
   </header>
-
+<!-- div to get city to search for. -->
   <div class="container-fluid">
     <div class="row">
       <div id="city-list" class="col-md-3 bg-light">
@@ -22,10 +22,13 @@
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="City Name, Country" aria-label="city name, country" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" id="city-search" type="button"><i class="fas fa-search"></i></button>
+            <!-- Search button -->
+            <button class="btn btn-outline-secondary" id="searchcity" type="button"><i class="fas fa-search"></i></button>
+            <!-- Reset button -->
+            <button class="btn btn-outline-secondary" id="reset" type="button">Reset</button>
           </div>
         </div>
-
+<!-- up to 10 searched locations will be remembered and listed on the left-hand side.  -->
         <table class="table table-light border">
           <tbody>
             <tr class="border" id="row0"></tr>
@@ -45,7 +48,7 @@
       <div class="col-md-9">
         
         <div class="card col-md-12 mt-3 mb-3">
-            
+            <!-- div listing the forecast of the city for the day. -->
           <div id="forecast" class="card-body pl-0 pr-0">
             <div class="row">
               <div id="city-name" class="col-md-auto h3 navbar-text ">City Name</div>
@@ -67,6 +70,7 @@
           <h3 class="ml-3">5-Day Forecast</h3>
         </div>
 
+        <!-- divs for each day in the 5-day forecast -->
         <div id="five-day-cards" class="row">
 
         <div class="col-md-2dot4">

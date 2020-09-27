@@ -1,18 +1,18 @@
-let lat = 0;
-let lon = 0;
-let cityName = ''; 
-let countryCode = '';
-let temp = 0;
-let humidity = 0;
-let windSpeed = 0;
-let uvIndex = 0;
-let iconName = '';
+// let lat = 0;
+// let lon = 0;
+// let cityName = ''; 
+// let countryCode = '';
+// let temp = 0;
+// let humidity = 0;
+// let windSpeed = 0;
+// let uvIndex = 0;
+// let iconName = '';
 let iconURL= 'https://openweathermap.org/img/wn/';
 let weatherIcon = '';
 let weatherInfoRequestPrefix = 'https://api.openweathermap.org/data/2.5/';
 let fiveDayRequestPrefix = 'https://api.openweathermap.org/data/2.5/forecast?q='; // + &mode=json
-let uviQuery = 'uvi?'
-// let apiKey = '&appid=994fee8b2531293f358ced41173a8f40'
+let query = 'uvi?'
+
 
 const apiKey = "&appid=" +key.OW_API_KEY;
 let searchHistory = {};
@@ -33,6 +33,7 @@ const renderSearchHistory = () => {
 }
 
 $( "table" ).on( "click", "button.recent", function() {
+  // depreciating
   event.preventDefault();
   getWeatherInformation($(this).text());
 });
@@ -41,13 +42,13 @@ let initializeLocalStorage = (() => {
   localStorage.setItem('searchHistory', '[]');
 });
 
-$('#city-search').click(() => {
-// 'event' is deprecating. Looking into replacement. 
+$('#searchcity').click(() => {
+// 'event' is deprecating. Looking into replacement. searches for city upon click.
   event.preventDefault();
   let citySearchString = validatedSearchString($('input').attr("placeholder", "City Name, Country").val());
   getWeatherInformation(citySearchString);
 })
-
+//searches for city upon pressing enter. 
 $('input').keypress(event => {
   if (event.which == 13) {
     event.preventDefault();
@@ -61,11 +62,13 @@ let getWeatherInformation = (citySearchString => {
   $.ajax({
     url: weatherInfoRequestPrefix + cityQuery + apiKey,
     method: "GET",
+    // error messaeg for if the system cannot find the city entered. 
     error: (err => {
-      alert("Your city was not found. Check your spelling, or enter a city name with a country code, separated by a comma")
+      alert("Your city was not found. Check your spelling, and make sure to follow this format [City, State Code]")
       return;
     })
   })
+  // pulls the below data as a response to the query for the city entered. 
   .then((response) => {
     lat = response.coord.lat;
     lon = response.coord.lon;
@@ -78,7 +81,7 @@ let getWeatherInformation = (citySearchString => {
   })
   .then(() => {
     return $.ajax({
-      url: weatherInfoRequestPrefix + uviQuery + apiKey + '&lat=' + lat + '&lon=' + lon,
+      url: weatherInfoRequestPrefix + query + apiKey + '&lat=' + lat + '&lon=' + lon,
       method: "GET"
     })
     .then(response => {
@@ -116,7 +119,7 @@ let validatedSearchString = (city => {
 let dateString = (unixTime => {
   return moment(unixTime).format('MM/DD/YYYY');
 })
-
+// displays weather data for the day/time. 
 let showValuesOnPage = (() => {
   let searchString = cityName + ', ' + countryCode;
   $('#city-name').text(searchString + ' (' + dateString(Date.now()) + ')');
@@ -130,7 +133,7 @@ let showValuesOnPage = (() => {
   $('#wind-data').text('Wind: ' + windSpeed + ' MPH');
   $('#uvi-data').text('UV Index: ' + uvIndex);
 });
-
+// displays weather data for hte 5 day forecast. 
 let setFiveDayData = (response => {
   let dataArray = response.list;
   let size = dataArray.length;
@@ -146,16 +149,17 @@ let setFiveDayData = (response => {
   }
 })
 
-// TODO: make searchesObj into an array instead of an object
+// saves search data to local storage to be loaded as search history on side of page. 
 let saveToLocalStorage = (searchHist => {
   return localStorage.setItem('searchHistory', JSON.stringify(searchHist));
 });
-
+ 
 const addToSearchHistory = (searchString, timeStamp) => {
   let obj = {
     "searchString": searchString,
     "timeStamp": timeStamp
   }
+  // loads local storage data to the search history list. 
   let searchHist = JSON.parse(localStorage.getItem('searchHistory'));
   if(!searchHist) {
     searchHist = [];
@@ -169,7 +173,7 @@ const addToSearchHistory = (searchString, timeStamp) => {
       inArray = true;
     }
   }
-
+// if the city isn't aleady in the search history list, it will be added. 
   if(inArray === false) {
     searchHist.push(obj);
   }
@@ -177,7 +181,7 @@ const addToSearchHistory = (searchString, timeStamp) => {
   searchHist.sort((b, a) => {
     return a.timeStamp - b.timeStamp;
   });
-
+// shows search history results on page
   while(searchHist.length > 10) {
     let popResult = searchHist.pop();
   }
@@ -185,16 +189,11 @@ const addToSearchHistory = (searchString, timeStamp) => {
   saveToLocalStorage(searchHist);
 }
 
-
-
-
-// var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=Washington,US&appid=994fee8b2531293f358ced41173a8f40";
-
-// $.ajax({
-//   url: queryURL,
-//   method: "GET"
-// }).then(function(response) {
-//   console.log(response);
-// });
-
-
+// Clear the current search history
+$('#reset').click(() => {
+      event.preventDefault();
+    // local storage empty
+    window.localStorage.clear();
+    location.reload();
+  }) 
+  
