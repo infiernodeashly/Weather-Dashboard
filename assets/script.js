@@ -1,12 +1,3 @@
-// let lat = 0;
-// let lon = 0;
-// let cityName = ''; 
-// let countryCode = '';
-// let temp = 0;
-// let humidity = 0;
-// let windSpeed = 0;
-// let uvIndex = 0;
-// let iconName = '';
 let iconURL= 'https://openweathermap.org/img/wn/';
 let weatherIcon = '';
 let weatherInfoRequestPrefix = 'https://api.openweathermap.org/data/2.5/';

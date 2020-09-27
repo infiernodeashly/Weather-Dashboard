@@ -60,6 +60,7 @@ border-bottom: 5px solid grey;
 .box {
     background-color: green;
     color: white; 
-    Opacity: .7; 
+    Opacity: .6; 
     outline: 5px solid lightgray;
 }
+
