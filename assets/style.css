@@ -47,3 +47,19 @@
         max-width: 20%;
     }
 }
+
+.headerDiv {
+background-color: blue;
+border-bottom: 5px solid grey;
+}
+
+.headerDiv h1 {
+    color: white;
+}
+
+.box {
+    background-color: green;
+    color: white; 
+    Opacity: .7; 
+    outline: 5px solid lightgray;
+}
