@@ -15,6 +15,10 @@ The weather and additional details are displayed, along with a 5-day forecast. I
 
 ![image](https://user-images.githubusercontent.com/68360119/94355119-3b2aa900-004f-11eb-9dc2-3d144c2a9c62.png)
 
+If the system cannot find the city entered, it will return an error message.
+
+![image](https://user-images.githubusercontent.com/68360119/94355136-92c91480-004f-11eb-90e6-fb07d06e8a3c.png)
+
 The user can select "Reset" to clear the search history and reload the page. 
 
 ![image](https://user-images.githubusercontent.com/68360119/94355081-e9821e80-004e-11eb-920c-6af009af1cc5.png)
