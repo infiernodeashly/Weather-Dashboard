@@ -13,7 +13,7 @@ The user inputs the city name and country code, then selects the search icon or 
 
 The weather and additional details are displayed, along with a 5-day forecast. It will also continue to add your searched locations to a list on the left. 
 
-![image](https://user-images.githubusercontent.com/68360119/94341405-0bd85580-ffd7-11ea-9719-c499920d1557.png)
+![image](https://user-images.githubusercontent.com/68360119/94355119-3b2aa900-004f-11eb-9dc2-3d144c2a9c62.png)
 
 The user can select "Reset" to clear the search history and reload the page. 
 
